@@ -1,0 +1,32 @@
+About
+-----
+This package was debianized by Soeren Sonnenburg <sonne@debian.org>.
+
+It was downloaded from http://vu1tur.eu.org/tools/.
+
+The upstream authors are vu1tur <to@vu1tur.eu.org> and
+Jean-Pierre Demailly <demailly@fourier.ujf-grenoble.fr>.
+
+Note that the source code resulting in binary dmg2img and the source code
+leading to vfdecrypt are released under different licenses. dmg2img is licensed
+under the GPL and vfdecrypt under a BSD style license. Also note that merely
+vfdecrypt is linked to openssl but not dmg2img.
+
+Usage
+-----
+Uncompressed .dmg images can be mounted via
+
+# modprobe hfsplus
+# mount -t hfsplus -o loop uncompressed.dmg /mnt
+
+However, some files are compressed which one may detect using file:
+
+$ file compressed.dmg 
+compressed.dmg: VAX COFF executable - version 376
+
+Using dmg2img -i compressed.dmg -o uncompressed.img
+these can be uncompressed and then become accessible for mount:
+
+# mount -t hfsplus -o loop uncompressed.img /mnt
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sat, 16 Nov 2013 06:24:08 +0100

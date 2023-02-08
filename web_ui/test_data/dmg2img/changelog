@@ -1,0 +1,57 @@
+dmg2img (1.6.7-1build1) bionic; urgency=high
+
+  * No change rebuild against openssl1.1.
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 05 Feb 2018 16:49:02 +0000
+
+dmg2img (1.6.7-1) unstable; urgency=medium
+
+  * New upstream version 1.6.6 (Closes: #778827)
+  * New upstream version 1.6.7
+  * Fix FTCBFS: Let cdbs' makefile.mk pass cross compilers. (Closes: #864511)
+  * Update patches
+  * Update debhelper compatibility level to v10
+  * Bump standards version to 4.1.1 (No changes required)
+  * Fix homepage URL, remove obsolete URLs
+  * Update debian/copyright file
+  * Fix typo in packet description
+  * New maintainer (Closes: #881838)
+
+ -- Denys Berkovskyy <berkovskyy@gmail.com>  Wed, 22 Nov 2017 03:53:31 +0000
+
+dmg2img (1.6.5-1.1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Add patch to build with OpenSSL 1.1. (Closes: #828282)
+
+ -- Reiner Herrmann <reiner@reiner-h.de>  Mon, 28 Nov 2016 19:55:28 +0100
+
+dmg2img (1.6.5-1) unstable; urgency=low
+
+  * New upstream version (Closes: #688136).
+  * Bump compat to 9.
+  * Bump standards version.
+    - Convert licence file to machine readable format.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sat, 16 Nov 2013 06:24:08 +0100
+
+dmg2img (1.6.2-2) unstable; urgency=low
+
+  * Apply patch from ubuntu (thanks Stefano Rivera) to honor
+    DEB_BUILD_OPTIONS (Closes: #582909).
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Thu, 27 May 2010 11:05:34 +0200
+
+dmg2img (1.6.2-1) unstable; urgency=low
+
+  * New upstream version.
+    - Bump standards versions (no changes required).
+    - Explicitly mark source format version 1.0.
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sun, 28 Mar 2010 21:45:36 +0200
+
+dmg2img (1.6.1-1) unstable; urgency=low
+
+  * Initial Release (Closes: #552246)
+
+ -- Soeren Sonnenburg <sonne@debian.org>  Sun, 25 Oct 2009 12:35:36 +0100

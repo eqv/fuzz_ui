@@ -1,0 +1,20 @@
+[package]
+name = "qemu_trace_loader"
+version = "0.1.0"
+authors = ["coco <coco@hexgolems.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+capstone="0.2.*"
+byteorder="1.2.*"
+goblin = "0.0.24"
+glob = "0.2"
+regex="1"
+tempdir="0.3.7"
+snafu = "0.6.0"
+
+newtypes = { path = "../newtypes" }
+binary_cfg = { path = "../binary_cfg" }
+qemu_forkserver = { path = "../qemu_forkserver" }

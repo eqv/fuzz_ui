@@ -1,0 +1,27 @@
+start_time        : 1574870666
+last_update       : 1574870863
+fuzzer_pid        : 4741
+cycles_done       : 203
+execs_done        : 1262994
+execs_per_sec     : 5696.24
+paths_total       : 9
+paths_favored     : 7
+paths_found       : 7
+paths_imported    : 0
+max_depth         : 6
+cur_path          : 6
+pending_favs      : 0
+pending_total     : 0
+variable_paths    : 0
+stability         : 100.00%
+bitmap_cvg        : 0.13%
+unique_crashes    : 1
+unique_hangs      : 0
+last_path         : 1574870713
+last_crash        : 1574870685
+last_hang         : 0
+execs_since_crash : 1132239
+exec_timeout      : 20
+afl_banner        : dmg2img
+afl_version       : 2.51b-ijon
+command_line      : ./afl-fuzz -x dmg2img.dict -i ../in2/ -o ../out4/ ../debian/dmg2img-1.6.7/dmg2img -l -V -i @@ -o /tmp/aa.img

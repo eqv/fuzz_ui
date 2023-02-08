@@ -1,0 +1,8 @@
+#!/usr/bin/make -f
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/class/makefile.mk
+
+get-orig-source:
+	uscan --rename --upstream-version 0 || true
+	@echo successfully retrieved upstream tarball

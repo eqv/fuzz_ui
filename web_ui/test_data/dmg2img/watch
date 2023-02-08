@@ -1,0 +1,4 @@
+version=3
+opts=filenamemangle=s/.*download.pl\?(.*)/$1/ \
+http://vu1tur.eu.org/tools/ .*dmg2img-(.*)\.tar\.gz \
+  debian debian/orig-tar.sh

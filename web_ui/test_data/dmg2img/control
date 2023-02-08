@@ -1,0 +1,17 @@
+Source: dmg2img
+Section: utils
+Priority: optional
+Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
+XSBC-Original-Maintainer: Denys Berkovskyy <berkovskyy@gmail.com>
+Build-Depends: cdbs, debhelper (>= 10), libssl-dev, zlib1g-dev, libbz2-dev
+Standards-Version: 4.1.1
+Homepage: http://vu1tur.eu.org/tools/
+
+Package: dmg2img
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Tool for converting compressed dmg files to hfsplus images
+ DMG2IMG is a tool which allows converting Apple compressed dmg 
+ archives to standard (hfsplus) image disk files.
+ .   
+ This tool handles zlib and bzip2 compressed dmg images.

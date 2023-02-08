@@ -1,0 +1,81 @@
+User Stories
+==========
+
+- split inputs into input sets
+  * define input sets
+  * add query lang to get input sets (reaches line/addr, tracepoint values, path~regex)
+  * make ui use trace sets
+
+- try variations of the input, obtain trace infos (0)
+- try variations of the input, obtain tracepoints information for inputs (0)
+- pass inputs to the fuzzer (0)
+
+- load binary files with ghidra info
+  * add decompiler loader
+
+- live update binary files with ghidra (5)
+  * link to ghidra
+
+- Libary support load more than one object, load em, trace em...
+
+Small fixes
+========
+* ui pagination
+* default: go to entry point of most complex thread
+* use config file
+* fix paths to static content
+* better warning/log system
+* protected url
+* load function info from debug info
+* fix local file dowload in queue view
+
+WIP
+===
+
+Done
+====
+7 view assembly side by side
+8 dashboard with live data
+  * websocket for push notifications
+  * json api
+* hexdump for inputs
+* relevant ui state in url
+* fix page history
+* fixed scrolling
+* run qemu as a child to get coverage for new inputs
+* proper error types
+* static disassembly for unknown code
+
+
+//(only contains bookkeeping data):
+Task
+    -> StaticDisassemble
+    -> GetSourceMap
+    -> FuzzRun
+    -> TraceRun
+    -> StaticAnalysis
+    -> DBGRun
+    -> ManualInputs
+
+//All the interesting state, should be as close to "append only" as possible
+//Results can refer other results and tasks, need way to access other results based on type and index or
+//something. Where do we decide that an input gets a trace?? Autorun tasks on new results per
+//type? Do we want to keep all the DBGtrace results around? Need a way to remove Results
+
+Result 
+    -> Inputs
+    -> StaticDisassembly
+    -> SourceMap
+    -> Trace
+    -> LintWarnings
+    -> DBGTrace
+
+// enrich data and Filter... will be rerun evertime data changes, might need incremental updates?
+// only keeps caching state, anything in here can be thrown away and regenerated
+Aggregator 
+    -> CFG
+    -> SourceTransitions
+
+//get run on every request, should be entirely stateless
+View(Agregator Filter)
+

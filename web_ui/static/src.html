@@ -1,0 +1,299 @@
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<link rel="stylesheet" href="/static/bootstrap-4.2.1-dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/fontawesome-free-5.6.3-web/css/all.css">
+		<link rel="stylesheet" href="/static/css/code.css">
+		<link rel="stylesheet" href="/static/css/asm.css">
+		<style>
+			.transitions-list>li.seta {color: #DC9D70ff; }
+			.transitions-list>li.setb {color: #84A7DCff; }
+			.transitions-list>li.both {color: #7ACF45ff; } 
+			.transitions-list {list-style-type: none;}
+			.file-line-link:hover{display: inline; text-decoration: none; color: inherit; font-weight: bold;}
+			.file-line-link{display: inline; text-decoration: none; color: inherit;}
+		</style>
+
+</head>
+<body>
+
+<div id="app_container" >
+	<ijon-nav-bar current="src"></ijon-nav-bar>
+	<div class=container-fluid>
+		<div class="row">
+			<div id="Metadata" class="container col-md-3">	
+					
+				<ul class = "nav nav-tabs">
+					<li class="nav-item">
+						<a  class="nav-link" href="#tab_files" data-toggle="tab"> <i class="fas fa-file-code"></i>Files</a>
+					</li>
+					<li class="nav-item">
+						<a  class="nav-link active" href="#tab_branches" data-toggle="tab"> <i class="fas fa-code-branch"></i>Transitions</a>
+					</li>
+					<li class="nav-item">
+						<a class ="nav-link" href="#tab_inputs" data-toggle="tab"><i class="fas fa-database"></i> Inputs ({{line_inputs.length}})</a>
+					</li>
+					<li class="nav-item">
+						<a class ="nav-link" href="#tab_search" data-toggle="tab"><i class="fas fa-search"></i> Search</a>
+					</li>
+					<li class="nav-item">
+						<a class ="nav-link" href="#tab_filter" data-toggle="tab"><i class="fas fa-search"></i> Filter</a>
+					</li>
+				</ul>
+				<div class="tab-content">
+
+					<div class="tab-pane" id="tab_files">
+					<ijon-files
+						v-bind:src_file="src_file"
+						v-bind:file_infos="file_infos" 
+						@select-line="goto_line"/>
+					</div>
+
+					<div class="tab-pane active" id="tab_branches">
+					<ijon-line-transitions v-if=code 
+						v-bind:ts="transitions[src_file]" 
+						v-bind:src_file="src_file"
+						v-bind:selected_line="selected_line" 
+						v-bind:file_infos="file_infos" 
+						@select-line="goto_line"/>
+					</div>
+
+					<div class="tab-pane" id="tab_inputs">
+					<ijon-inputs
+						v-bind:input_infos="input_infos"
+						v-bind:line_inputs="line_inputs"
+					/>
+					</div>
+					<div class="tab-pane" id="tab_search">
+						<ijon-search
+							v-bind:file_infos="file_infos"
+							@select-line="goto_line"
+						/>
+						</div>
+					<div class="tab-pane" id="tab_filter">
+						<ijon-filter-branches
+							v-bind:file_infos="file_infos"
+							v-bind:filtered_lines="filtered_lines"
+							@select-line="goto_line"
+						/>
+						</div>
+				</div>
+
+			</div>
+
+			
+			<div class="container codecolumn col-9">
+				<h6 v-if="file_infos[src_file]"> {{file_infos[src_file]["path"]}} {{file_infos[src_file]["covered_lines"]}}/{{file_infos[src_file]["lines"]}}</h6>
+				<div class="row codebox p-0 mr-1">
+				
+					<div class="container codecolumn col-8 ml-0 p-0">
+						<ijon-code-view 
+							v-bind:code="code[src_file]" 
+							v-bind:src_file="src_file" 
+							v-bind:selected_line="selected_line" 
+							v-bind:file_infos="file_infos"
+							@select-line=goto_line />
+					</div>
+					<div class="container codecolumn col-4 ml-0 p-0">
+						<ijon-asm-view 
+							v-bind:asm="asm" 
+							v-bind:selected_addrs="selected_addrs" 
+							@select-line=goto_addr />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="vue.js"></script>
+<script src="vue-res.js"></script>
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/file-line-link.js"></script>
+<script src="/static/js/nav.js"></script>
+<script src="/static/js/code.js"></script>
+<script src="/static/js/asm.js"></script>
+<script src="/static/js/line_transitions.js"></script>
+<script src="/static/js/files.js"></script>
+<script src="/static/js/inputs.js"></script>
+<script src="/static/js/search.js"></script>
+<script src="/static/js/filter_branches.js"></script>
+<script>
+
+window.addEventListener("load", function(event) {
+	window.app = new Vue({
+			el: '#app_container',
+			data: {
+				src_file: 1,
+				selected_line: 1,
+				selected_addrs: [],
+				code: {},
+				asm: [],
+				file_infos: {},
+				input_infos: {},
+				transitions: {},
+				updated_file: false,
+				line_inputs: [],
+				line_addrs: [],
+				filtered_lines: [],
+			},
+			methods: {
+				get_code: function(id) {
+					if(!this.code.hasOwnProperty(id)){
+						this.$http.get('/api/view_src/'+this.src_file).then( function (response) {
+							this.$set(this.code, id, response.data);
+							this.updated_file = true;
+						});
+					} else {this.updated_file = true;}
+					if(!this.transitions.hasOwnProperty(id)){
+					this.$http.get('/api/view_transitions/'+this.src_file).then( function (response) {
+						this.$set(this.transitions, id, response.data);
+					});
+					}
+				},
+				
+				get_line_inputs: function(sid,lid) {
+						this.$http.get('/api/view_line_inputs/'+sid+"/"+lid).then( function (response) {
+							this.line_inputs = response.data;
+						});
+				},
+				get_line_addrs: function(sid,lid) {
+						this.$http.get('/api/view_line_addrs/'+sid+"/"+lid).then( function (response) {
+							console.log(response.data);
+							if(response.data){
+								this.selected_addrs = response.data.sort();
+							}
+						});
+				},
+				get_asm: function(addr) {
+						this.$http.get('/api/view_asm/'+addr).then( function (response) {
+							console.log(response.data);
+							if(response.data){
+								this.asm = response.data;
+							}
+						});
+				},
+
+				get_files: function() {
+						this.$http.get('/api/view_files/').then( function (response) {
+							this.$set(this, "file_infos", response.data);
+						});
+				},
+
+				get_inputs: function() {
+						this.$http.get('/api/view_inputs/').then( function (response) {
+							this.$set(this, "input_infos", response.data);
+						});
+				},
+				search_lines: function() {
+						this.$http.get('/api/search_branches/').then( function (response) {
+							this.$set(this, "filtered_lines", response.data);
+						});
+				},
+
+				next_item: function(event) {
+					if(event.key == "ArrowUp"){
+						this.selected_line-=1;
+						event.preventDefault(); 
+					}
+					if(event.key == "ArrowDown"){
+						this.selected_line+=1;
+						event.preventDefault(); 
+					}
+				},
+				
+				state_from_params: function(params) {
+					if(params.get('l') && params.get('s')){
+						s = parseInt(params.get('s'));
+						l = parseInt(params.get('l'));
+						if(s != this.src_file || l != this.selected_line){
+							this.goto_line(s,l);
+						}
+					}
+				},
+
+				state_from_hash: function(){
+					const urlParams = new URLSearchParams(String(window.location.hash.substring(1)));
+					this.state_from_params(urlParams);
+				},
+
+				state_to_hash: function(){
+					const urlParams = new URLSearchParams(String(window.location.hash.substring(1)));
+					urlParams.set('l', this.selected_line);
+					urlParams.set('s', this.src_file);
+					window.location.hash=String(urlParams);
+				},
+
+				set_line: function(line) {
+					this.selected_line = line;
+				},
+
+				goto_line: function(file, line){
+					this.src_file = file;
+					this.selected_line = line;
+					var elmnt = document.getElementById("l"+line);
+					if(elmnt){
+    					var rect = elmnt.getBoundingClientRect();
+    					var elemTop = rect.top;
+    					var elemBottom = rect.bottom;
+    					var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+    					if(!isVisible){
+							elmnt.scrollIntoView(); 
+						}
+					}
+				},
+				goto_addr: function(addr){
+					var elmnt = document.getElementById("a"+addr);
+					if(elmnt){
+    					var rect = elmnt.getBoundingClientRect();
+    					var elemTop = rect.top;
+    					var elemBottom = rect.bottom;
+    					var isVisible = (elemTop >= 0) && (elemBottom <= window.innerHeight);
+    					if(!isVisible){
+							elmnt.scrollIntoView(); 
+						}
+					}
+				},
+		 	},
+			watch: {
+				updated_file: function(){
+							if(this.updated_file){
+								var that = this;
+								Vue.nextTick(function(){
+									that.goto_line(that.src_file, that.selected_line);
+									that.updated_file = false;
+								});
+							}
+				},
+				src_file: function() {
+					this.get_code(this.src_file);
+					this.get_line_inputs(this.src_file, this.selected_line);
+					this.get_line_addrs(this.src_file, this.selected_line);
+					this.state_to_hash();
+				},
+				selected_line: function() {
+					this.get_line_inputs(this.src_file, this.selected_line);
+					this.get_line_addrs(this.src_file, this.selected_line);
+					this.state_to_hash();
+				},
+				selected_addrs: function(){
+					if(this.selected_addrs && this.selected_addrs.length>0){
+						this.get_asm(this.selected_addrs[0]);
+					}
+					this.goto_addr(this.selected_addrs[0]);
+				}
+			},
+		});
+		document.addEventListener("keydown", app.next_item);
+		window.onhashchange = app.state_from_hash;
+		app.state_from_hash();
+		window.app.get_code(1);
+		window.app.get_files();
+		window.app.get_inputs();
+		window.app.search_lines();
+	});
+
+</script>
+</body>
+</html>

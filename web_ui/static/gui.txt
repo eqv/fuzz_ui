@@ -1,0 +1,27 @@
+
+===================================[RedQueen]===================================
+|Target: readelf                       | Config: rq_nodet                      |
+--------------------------------------------------------------------------------
+|Coverage:     0   | Regular:   148    | Crash:     0      | Timeout:     0    |
+|Last: None yet    | Last: None yet    | Last: None yet    | Last: None yet    |
+|Runtime: 06m,05s  | Execs/s:  2966    | #Execs: 1.1M      | #Slaves:     1    |
+|P(Collis):     0% | Fav Pend.: 97.7%  | Cycles:     0     | Stability: 0.0%   |
+|CPU Total:     0% | Logic: 0.5%       | VM: 0.0%          | QEMU: 0.0%        |
+|MEM Total:    25% | Logic: 0.0%       | VM: 0.0%          | QEMU: 0.0%        |
+--------------------------------------------------------------------------------
+|Yld: Color:    11 | Trim:     2 | Redq:    21   | Hvc:   102    | Det:     0  |
+|Fav: Total:    88 | Init:    44 | Gram:     0   | Hvc:    42    | Fin:     2  |
+|Nrm: Total:    60 | Init:    50 | Gram:     0   | Hvc:    10    | Fin:     0  |
+|Bmp: Total: 65.5K | Used:   489 | P(Collision): 0.7%            | #Bits: 0.0  |
+================================================================================
+|> Slave 0 | Stage: initia  | e/s:  2966      | size:    60B   | lvl:    18    |
+===================================[Slave 0 ]===================================
+|Input ID :       63 | #Fav:     5  | #Bytes:     5 | #Bits:     0 | exit: r   |
+|Parent ID:       54 | Attention:     0e / None yet | found: None yet          |
+--------------------------------------------------------------------------------
+|0x0000000: 89 50 4e 47 d0 a0 1a a0 00 00 00 d0 49 48 44 52 | .PNG........IHDR |
+|0x0000010: 00 00 00 10 e0 70 e2 7c 10 60 00 00 00 f6 60 00 | .......|......`. |
+|0x0000020: 00 00 00 00 00 62 4b 47 44 90 83 14 b6 f8 fa d5 | .....bKGD....... |
+|0x0000030: 90 52 00 d8 cc 70 c6 25 f1 78 20 b0             | .R.....%.x..     |
+
+=> LOG

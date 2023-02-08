@@ -1,0 +1,14 @@
+[workspace]
+
+members = [
+    "web_ui",
+		"binary_cfg",
+		"source_info",
+		"qemu_trace_loader",
+		"dump_srcmap",
+		"newtypes",
+    "qemu_forkserver",
+]
+
+[profile.release]
+debug = true

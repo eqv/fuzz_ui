@@ -1,0 +1,12 @@
+(
+  dirs:(
+    ijon_base_dir:"../",
+    source_dir:"/home/me/tmp/RTSP_workdir/src/"
+  ),
+  target:(
+    path:"/home/me/tmp/RTSP_workdir/testOnDemandRTSPServer",
+    pie_base: Some(0x555555554000), 
+    args:["-D","-g","-e","-t","-r","-R","@@"],
+    machine:X86_64
+  )
+)

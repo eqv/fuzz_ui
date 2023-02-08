@@ -1,0 +1,31 @@
+[package]
+name = "web_ui"
+version = "0.1.0"
+authors = ["coco <coco@hexgolems.com>"]
+
+[dependencies]
+actix = "0.8.3"
+actix-web = "1.0.8"
+actix-web-actors ="1.0.2"
+actix-files = "0.1.6"
+syntect = "3.3.0"
+serde = "*"
+serde_derive="1.0.114"
+serde_json = "*"
+rmpv="0.4"
+glob = "0.2"
+clap = "2"
+failure="0.1"
+regex="1"
+env_logger="0.7.1"
+base64="0.11.0"
+snafu="0.6.0"
+ron="0.6.0"
+rand="0.7.3"
+
+newtypes = { path = "../newtypes" }
+qemu_trace_loader = { path = "../qemu_trace_loader" }
+dump_srcmap = { path = "../dump_srcmap" }
+binary_cfg = { path = "../binary_cfg" }
+source_info = { path = "../source_info" }
+

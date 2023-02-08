@@ -1,0 +1,103 @@
+<html>
+<head>
+	<link rel="stylesheet" href="/static/bootstrap-4.2.1-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/fontawesome-free-5.6.3-web/css/all.css">
+	<link rel="stylesheet" href="/static/css/code.css">
+	<style>
+	</style>
+</head>
+<body>
+<div id="app_container" >
+	<ijon-nav-bar current="dash"></ijon-nav-bar>
+	<div class=container>
+		<div class="row mb-4">
+			<div class="col-sm-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Target</h5>
+						<p class="card-text">Path: {{dash_data["target_path"]}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">Coverage</h5>
+						<p class="card-text">Lines: {{dash_data["num_covered"]}}/{{dash_data["num_lines"]}}</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
+				<div class="card">
+						<div class="card-body">
+							<h5 class="card-title">Inputs</h5>
+							<p class="card-text">Queue Size: {{dash_data["num_inputs"]}}</p>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="row">
+			<div v-for="client in dash_data.clients" class="col-sm-2">
+				<div class="card">
+					<div class="card-body">
+						<h5 class="card-title">{{client["id"]}}: {{client["fuzz_type"]}}</h5>
+						<p class="card-text">Queue Size: {{client.num_inputs}}</p>
+						<p class="card-text">Execs/Sec: {{client.execs_per_second}}</p>
+						<p class="card-text">Runtime: {{client.ticks}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- {{dash_data}}-->
+	</div>
+</div>
+
+<script src="vue.js"></script>
+<script src="vue-res.js"></script>
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/nav.js"></script>
+<script>
+
+window.addEventListener("load", function(event) {
+	window.app = new Vue({
+			el: '#app_container',
+			data:{ dash_data: {}},
+			methods:{ 
+				get_data: function() {
+						this.$http.get('/api/dash_info/').then( function (response) {
+							this.$set(this, "dash_data", response.data);
+						});
+				},
+				get_client_data: function() {
+					this.$http.get('/api/client_info/').then( function (response) {
+							this.$set(this.dash_data, "clients", response.data);
+						});
+				},
+				// test_set_data: function(){
+				// 	this.$http.post('http://127.0.0.1:8080/api/dash_set_info/',{
+				// 		target_path: "baz",
+				// 		num_inputs: 123,
+				// 		num_lines: 123,
+				// 		num_covered: 12,
+				// 	}).then( function (response) {
+				// 			console.log(response.data);
+				// 		});
+				// }
+			},
+		});
+		window.app.get_data();
+		const socket = new WebSocket('ws://127.0.0.1:8080/ws/');
+		socket.addEventListener('open', function (event) {
+			socket.send('Ijon Web UI');
+		});
+		socket.addEventListener('message', function (event) {
+			console.log('Message from server ', event.data);
+			window.app.get_client_data();
+		});
+	});
+
+</script>
+</body>
+</html>

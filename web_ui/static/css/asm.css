@@ -1,0 +1,50 @@
+		.asmview{
+			height:88vh;
+			overflow-x: scroll;
+			overflow-y: scroll;
+			font-family: monospace;
+			background-color: #fff;
+		}
+		.asmview::-webkit-scrollbar {
+			display: none;
+		}
+		.asmview>pre{
+			overflow: visible;
+			display: table;
+			min-width: 100%;
+		}
+		.asmview>pre>.line {
+			display: block;
+		}
+		.asmview>pre>.line.dead{ background-color: #1112144D; } 
+		.asmview>pre>.line.dead:hover span{ opacity: 1.0; } 
+		.asmview>pre>.line.dead.selected span{ opacity: 1.0; } 
+		.asmview>pre>.line.dead>.line_span span{ opacity: 0.5; } 
+		.asmview>pre>.line.both{ background-color: #7ACF4550; } 
+		.asmview>pre>.line.neither{ background-color: #DC4C4C50; }
+		.asmview>pre>.line.seta{ background-color: #DC9D7050; }
+		.asmview>pre>.line.setb{ background-color: #84A7DC50; }
+		.asmview>pre .meta {
+			user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-o-user-select: none;
+			display: inline;
+			color: gray;
+		}
+
+		.asmview>pre>.line.dead>.meta{visibility:hidden;}
+		.asmview>pre>.line.neither>.meta{visibility:hidden;}
+
+		.asmview>pre>.line.dead.selected{ background-color: #11121480; } 
+		.asmview>pre>.line.both.selected{ background-color: #7ACF4580; } 
+		.asmview>pre>.line.neither.selected{ background-color: #DC4C4C80; }
+		.asmview>pre>.line.seta.selected{ background-color: #DC9D7080; }
+		.asmview>pre>.line.setb.selected{ background-color: #84A7DC80; }
+		.asmview>pre>.line.selected{
+			font-weight: bold;
+		}
+		.asmview>pre>.line.selected .meta {
+			color: black;
+		}

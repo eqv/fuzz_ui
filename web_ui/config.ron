@@ -1,0 +1,11 @@
+(
+  dirs:(
+    ijon_base_dir:"../",
+    source_dir:"/home/me/tmp/test_target/qemu-5.0.0-rc3/"
+  ),
+  target:(
+    path:"/home/me/tmp/test_target/qemu-system-x86_64",
+    args:["-D","-g","-e","-t","-r","-R","@@"],
+    machine:X86_64
+  )
+)

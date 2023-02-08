@@ -1,0 +1,59 @@
+<html>
+<head>
+	<link rel="stylesheet" href="/static/bootstrap-4.2.1-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/fontawesome-free-5.6.3-web/css/all.css">
+	<link rel="stylesheet" href="/static/css/code.css">
+	<style>
+	</style>
+</head>
+<body>
+<div id="app_container" >
+	<ijon-nav-bar current="queue"></ijon-nav-bar>
+	<div class=container">
+		<ijon-hex-view
+		v-bind:hex_data="hex_data"
+		/>
+	</div>
+</div>
+
+<script src="vue.js"></script>
+<script src="vue-res.js"></script>
+<script src="/static/jquery-3.3.1.min.js"></script>
+<script src="/static/bootstrap-4.2.1-dist/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/nav.js"></script>
+<script src="/static/js/hexdump.js"></script>
+<script>
+
+window.addEventListener("load", function(event) {
+	window.app = new Vue({
+			el: '#app_container',
+			data:{ hex_data: [], input_id: 0 },
+			methods:{ 
+				state_from_params: function(params) {
+					console.log(params.get("i"));
+					if(params.get('i')){
+						i = parseInt(params.get('i'));
+						this.input_id = i;
+					}
+				},
+
+				state_from_hash: function(){
+					const urlParams = new URLSearchParams(String(window.location.hash.substring(1)));
+					this.state_from_params(urlParams);
+				},
+				get_data: function() {
+						this.$http.get('/api/queue/'+this.input_id).then( function (response) {
+							console.log(response.data);
+							this.$set(this, "hex_data", response.data);
+						});
+				},
+			},
+		});
+		app.state_from_hash();
+		window.onhashchange = app.state_from_hash;
+		window.app.get_data();
+	});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+		.codebox{
+			border-radius: .25em;
+			box-shadow: .1em .1em .5em rgba(0,0,0,.45);
+		}
+		
+		.codeview{
+			height:88vh;
+			overflow-x: scroll;
+			overflow-y: scroll;
+			font-family: monospace;
+			background-color: #fff;
+			counter-reset: line;
+		}
+		.codeview>pre{
+			overflow: visible;
+			display: table;
+			min-width: 100%;
+		}
+		.codeview>pre>.line {
+			display: block;
+		}
+		.codeview>pre>.line:before{
+			counter-increment: line;
+			content: counter(line);
+			display: inline-block;
+			border-right: 1px solid #ddd;
+			padding: 0 .5em;
+			margin-right: .5em;
+			color: #888;
+			min-width: 4em;
+		}
+		.codeview>pre>.line.dead{ background-color: #1112144D; } 
+		.codeview>pre>.line.dead:hover span{ opacity: 1.0; } 
+		.codeview>pre>.line.dead.selected span{ opacity: 1.0; } 
+		.codeview>pre>.line.dead>.line_span span{ opacity: 0.5; } 
+		.codeview>pre>.line.both{ background-color: #7ACF4550; } 
+		.codeview>pre>.line.neither{ background-color: #DC4C4C50; }
+		.codeview>pre>.line.seta{ background-color: #DC9D7050; }
+		.codeview>pre>.line.setb{ background-color: #84A7DC50; }
+		.codeview>pre .meta {
+			user-select: none;
+			-moz-user-select: none;
+			-khtml-user-select: none;
+			-webkit-user-select: none;
+			-o-user-select: none;
+			display: inline;
+			color: gray;
+		}
+
+		.codeview>pre>.line.dead>.meta{visibility:hidden;}
+		.codeview>pre>.line.neither>.meta{visibility:hidden;}
+
+		.file-list{
+			height:80vh;
+			overflow-x: scroll;
+			font-family: monospace;
+		}
+
+		.codeview>pre>.line.dead.selected{ background-color: #11121480; } 
+		.codeview>pre>.line.both.selected{ background-color: #7ACF4580; } 
+		.codeview>pre>.line.neither.selected{ background-color: #DC4C4C80; }
+		.codeview>pre>.line.seta.selected{ background-color: #DC9D7080; }
+		.codeview>pre>.line.setb.selected{ background-color: #84A7DC80; }
+
+		.codeview>pre>.line.selected{
+			font-weight: bold;
+		}
+		.codeview>pre>.line.selected .meta {
+			color: black;
+		}
+
+		.codeview>pre>.line.selected:before{
+			color: black;
+		}
